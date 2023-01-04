@@ -29,7 +29,7 @@ const Results = () => {
         let resp = await fetch('https://accounts.spotify.com/api/token', authOptions)
         if (!resp.ok) {
             buttonClick()
-            return
+            return null
         }
         let body = await resp.json()
         localStorage.setItem('access_token', body.access_token)
