@@ -110,11 +110,19 @@ const Results = () => {
             {data['items'].map((item, idx) => (
                 <div key={idx} className="card border border-primary" style={{marginBottom: "25px"}}>
                     <div className="card-body">
-                        <h5 className="card-title">{item.name}</h5>
-                        <h6 className="card-subtitle mb-2 text-muted">{item.album.name}<br></br>Released on {item.album.release_date}</h6>
-                        {item.artists.map((artist, artistIdx) => (
-                            <p key={artistIdx} className="card-text">{artist.name}</p>
-                        ))}
+                        <div className='row'>
+                            <div className='col'>
+                                <h5><a href={item.external_urls.spotify} className='link-dark' target='_blank' rel='noreferrer'>{item.name}</a></h5>
+                                <h6 className="card-subtitle mb-2 text-muted"><a href={item.album.external_urls.spotify} className="link-secondary" target='_blank' rel='noreferrer'>{item.album.name}</a><br></br>Released on {item.album.release_date}</h6>
+                                <h6 className='card-title'>Artists:</h6>
+                                {item.artists.map((artist, artistIdx) => (
+                                    <p key={artistIdx} className="pclass"><a href={artist.external_urls.spotify} className="link-secondary" target='_blank' rel='noreferrer'>{artist.name}</a></p>
+                                ))}
+                            </div>
+                            <div className='col' style={{textAlign: 'right'}}>
+                                <img src={item.album.images[1].url} alt={item.album.name} width={item.album.images[1].width} height={item.album.images[1].height}></img>
+                            </div>
+                        </div>
                     </div>
                 </div>
             ))}
