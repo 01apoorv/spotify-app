@@ -38,7 +38,7 @@ const Home = () => {
         }
         let logoff = searchParams.get('log_off')
         let state = generateRandomString(16)
-        let scope = 'user-read-private user-read-email user-top-read'
+        let scope = 'user-read-private user-read-email user-top-read user-modify-playback-state'
         let code_verifier = generateRandomString(64)
         localStorage.setItem('code_verifier', code_verifier)
         generateCodeChallenge(code_verifier).then((code_challenge) => {
@@ -57,7 +57,17 @@ const Home = () => {
     }
 
     return (
-        <button onClick={() => redirect()}>Click me!</button>
+        <div style={{padding: "25px"}}>
+            <h3>Spotify Top Track Lister</h3>
+            <div className="home">
+                <p>
+                    This application gets your top tracks from Spotify and lists the first 50.
+                    You can click on the song title, album, or any of the artists to go to the Spotify page for it.
+                    You can even queue your favorite song right from the website!
+                </p>
+            </div>
+            <button className='btn btn-outline-success' onClick={() => redirect()}>Log in</button>
+        </div>
     )
 }
 

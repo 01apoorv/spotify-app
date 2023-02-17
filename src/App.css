@@ -2,6 +2,34 @@ a {
   text-decoration: none;
 }
 
+.buttonMargin {
+  margin-left:25px;
+}
+
+.lastButton {
+  margin-right: 25px;
+}
+
+.songTitle {
+  display: flex;
+  align-items: baseline; /* Vertical align the elements to the center */
+  padding-bottom: 10px;
+}
+
+nav {
+  margin-bottom: 10px;
+}
+
+.home {
+  word-wrap: break-word;
+  width: 800px;
+}
+
+.message {
+  margin-top: -12px;
+  margin-bottom: 8px;
+}
+
 .App {
   text-align: left;
 }
