@@ -5,6 +5,7 @@ import keys from '../components/keys'
 const Results = () => {
     const [searchParams] = useSearchParams()
     const [data, setData] = useState({'items': []})
+    const [user, setUser] = useState({})
     const [list, setList] = useState('short_term')
     const [active, setActive] = useState(0)
     const [show, setShow] = useState(false)
@@ -99,7 +100,8 @@ const Results = () => {
             let dataBody = await dataPromise.json()
             let userBody = await userProfile.json()
             if (userBody.id === 'dgeorgie0407') setShow(true)
-            else if (show) setShow(false)
+            else setShow(false)
+            setUser(userBody)
             setData(dataBody)
         }
         getData().catch(() => {
@@ -143,27 +145,28 @@ const Results = () => {
             <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top justify-content-center">
                 <div className='navbar-collapse collapse'>
                     <div className="btn-group btn-group-toggle" data-toggle="buttons">
-                        <button onClick={() => {setList('short_term'); setActive(0)}} className={(active === 0 ? "btn btn-outline-success active" : "btn btn-outline-success")+' buttonMargin'}>Last 4 weeks</button>
+                        <button id='buttonMargin' onClick={() => {setList('short_term'); setActive(0)}} className={(active === 0 ? "btn btn-outline-success active" : "btn btn-outline-success")}>Last 4 weeks</button>
                         <button onClick={() => {setList('medium_term'); setActive(1)}} className={active === 1 ? "btn btn-outline-success active" : "btn btn-outline-success"}>Last 6 months</button>
                         <button onClick={() => {setList('long_term'); setActive(2)}} className={active === 2 ? "btn btn-outline-success active" : "btn btn-outline-success"}>All time</button>
                     </div>
                 </div>
+                <div className='text-muted' id='loginfo'>Logged in as {user.display_name}</div>
                 <div className="navbar-nav ml-auto">
-                    <button onClick={() => buttonClick()} className="btn btn-outline-primary lastButton">Log off</button>
+                    <button id='lastButton' onClick={() => buttonClick()} className="btn btn-outline-primary">Log off</button>
                 </div>
             </nav>
-            <div style={{padding: "25px", marginTop: '50px'}}>
+            <div id='main'>
                 <div>
-                    {show ? <p className='message'>Hi Rachel :)</p> : ''}
+                    {show ? <p id='message'>Hi Rachel :)</p> : ''}
                 </div>
                 {data['items'].map((item, idx) => (
-                    <div key={idx} className="card border border-primary" style={{marginBottom: "25px"}}>
+                    <div key={idx} className="card border border-primary" id='card'>
                         <div className="card-body">
                             <div className='row'>
                                 <div className='col'>
-                                    <div className='songTitle'>
+                                    <div id='songTitle'>
                                         <h5><a href={item.external_urls.spotify} className='link-dark' target='_blank' rel='noreferrer'>{item.name}</a></h5>
-                                        <button onClick={() => queueSong(item.uri)} className='btn btn-outline-primary btn-sm buttonMargin'>Queue song</button>
+                                        <button id='queue' onClick={() => queueSong(item.uri)} className='btn btn-outline-primary btn-sm'>Queue song</button>
                                     </div>
                                     <h6 className="card-subtitle mb-2 text-muted">
                                         <a href={item.album.external_urls.spotify} className="link-secondary" target='_blank' rel='noreferrer'>{item.album.name}</a>
@@ -174,7 +177,7 @@ const Results = () => {
                                         <p key={artistIdx} className="pclass"><a href={artist.external_urls.spotify} className="link-secondary" target='_blank' rel='noreferrer'>{artist.name}</a></p>
                                     ))}
                                 </div>
-                                <div className='col' style={{textAlign: 'right'}}>
+                                <div className='col' id='pic'>
                                     <img src={item.album.images[1].url} alt={item.album.name} width={item.album.images[1].width} height={item.album.images[1].height}></img>
                                 </div>
                             </div>

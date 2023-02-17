@@ -57,9 +57,9 @@ const Home = () => {
     }
 
     return (
-        <div style={{padding: "25px"}}>
+        <div id='homeMain'>
             <h3>Spotify Top Track Lister</h3>
-            <div className="home">
+            <div id="home">
                 <p>
                     This application gets your top tracks from Spotify and lists the first 50.
                     You can click on the song title, album, or any of the artists to go to the Spotify page for it.

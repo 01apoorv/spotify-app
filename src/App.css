@@ -2,15 +2,16 @@ a {
   text-decoration: none;
 }
 
-.buttonMargin {
+#buttonMargin {
   margin-left:25px;
 }
 
-.lastButton {
+#lastButton {
+  margin-left: 15px;
   margin-right: 25px;
 }
 
-.songTitle {
+#songTitle {
   display: flex;
   align-items: baseline; /* Vertical align the elements to the center */
   padding-bottom: 10px;
@@ -20,14 +21,39 @@ nav {
   margin-bottom: 10px;
 }
 
-.home {
+#home {
   word-wrap: break-word;
   width: 800px;
 }
 
-.message {
+#message {
   margin-top: -12px;
   margin-bottom: 8px;
+}
+
+#main {
+  padding: 25px;
+  margin-top: 50px;
+}
+
+#card {
+  margin-bottom: 25px;
+}
+
+#pic {
+  text-align: right;
+}
+
+#queue {
+  margin-left: 15px;
+}
+
+#homeMain {
+  padding: 25px;
+}
+
+#loginfo {
+  margin: 0px;
 }
 
 .App {
