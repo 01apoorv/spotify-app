@@ -157,7 +157,7 @@ const Results = () => {
             </nav>
             <div id='main'>
                 <div>
-                    {show ? <p id='message'>Hi Rachel :)</p> : ''}
+                    {true ? <p id='message'>Hi Rachel :)</p> : ''}
                 </div>
                 {data['items'].map((item, idx) => (
                     <div key={idx} className="card border border-primary" id='card'>
