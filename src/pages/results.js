@@ -9,6 +9,7 @@ const Results = () => {
     const [list, setList] = useState('short_term')
     const [active, setActive] = useState(0)
     const [show, setShow] = useState(false)
+    const [isMenuOpen, setMenuOpen] = useState(false)
 
     const buttonClick = () => {
         localStorage.clear()
@@ -39,6 +40,10 @@ const Results = () => {
         localStorage.setItem('access_token', body.access_token)
         if ('refresh_token' in body) localStorage.setItem('refresh_token', body.refresh_token)
         return body.access_token
+    }
+
+    const handleMenuToggle = () => {
+        setMenuOpen(!isMenuOpen)
     }
     
     useEffect(() => {
@@ -141,14 +146,23 @@ const Results = () => {
     // }, [])
     // console.log(data.items)
     return (
-        <div>
+        <div className='App'>
             <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top justify-content-center">
-                <div className='navbar-collapse collapse'>
-                    <div className="btn-group btn-group-toggle" data-toggle="buttons">
-                        <button id='buttonMargin' onClick={() => {setList('short_term'); setActive(0)}} className={(active === 0 ? "btn btn-outline-success active" : "btn btn-outline-success")}>Last 4 weeks</button>
-                        <button onClick={() => {setList('medium_term'); setActive(1)}} className={active === 1 ? "btn btn-outline-success active" : "btn btn-outline-success"}>Last 6 months</button>
-                        <button onClick={() => {setList('long_term'); setActive(2)}} className={active === 2 ? "btn btn-outline-success active" : "btn btn-outline-success"}>All time</button>
-                    </div>
+                <button className='navbar-toggler ms-4' type='button' data-toggle='collapse' data-target='#navbarSupportedContent1' onClick={handleMenuToggle}>
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className={isMenuOpen ? 'navbar-collapse' : 'navbar-collapse collapse'} id='navbarSupportedContent1'>
+                    <ul className='navbar-nav ms-4'>
+                        <li className='nav-item'>
+                            <button className={active === 0 ? 'btn btn-link link-dark text-decoration-none' : 'btn btn-link link-secondary text-decoration-none'} onClick={() => {setList('short_term'); setActive(0)}}>Last 4 weeks</button>
+                        </li>
+                        <li className='nav-item'>
+                            <button className={active === 1 ? 'btn btn-link link-dark text-decoration-none' : 'btn btn-link link-secondary text-decoration-none'} onClick={() => {setList('medium_term'); setActive(1)}}>Last 6 months</button>
+                        </li>
+                        <li className='nav-item'>
+                            <button className={active === 2 ? 'btn btn-link link-dark text-decoration-none' : 'btn btn-link link-secondary text-decoration-none'} onClick={() => {setList('long_term'); setActive(2)}}>All time</button>
+                        </li>
+                    </ul>
                 </div>
                 <div className='text-muted' id='loginfo'>Logged in as {user.display_name}</div>
                 <div className="navbar-nav ml-auto">
@@ -157,7 +171,7 @@ const Results = () => {
             </nav>
             <div id='main'>
                 <div>
-                    {true ? <p id='message'>Hi Rachel :)</p> : ''}
+                    {show ? <p id='message'>Hi Rachel :)</p> : ''}
                 </div>
                 {data['items'].map((item, idx) => (
                     <div key={idx} className="card border border-primary" id='card'>

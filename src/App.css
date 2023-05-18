@@ -2,8 +2,8 @@ a {
   text-decoration: none;
 }
 
-#buttonMargin {
-  margin-left:25px;
+.btn:focus {
+  box-shadow: none;
 }
 
 #lastButton {
