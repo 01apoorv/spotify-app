@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import keys from '../components/keys'
+import { Alert } from 'react-bootstrap'
 
 const Results = () => {
     const [searchParams] = useSearchParams()
@@ -10,6 +11,7 @@ const Results = () => {
     const [active, setActive] = useState(0)
     const [show, setShow] = useState(false)
     const [isMenuOpen, setMenuOpen] = useState(false)
+    const [alert, setAlert] = useState(false)
 
     const buttonClick = () => {
         localStorage.clear()
@@ -116,7 +118,7 @@ const Results = () => {
 
     const queueSong = async uri => {
         let access_token = localStorage.getItem('access_token')
-        await fetch('https://api.spotify.com/v1/me/player/queue?' + new URLSearchParams({
+        let resp = await fetch('https://api.spotify.com/v1/me/player/queue?' + new URLSearchParams({
             uri
         }).toString(), {
             headers: {
@@ -124,6 +126,10 @@ const Results = () => {
             },
             method: 'POST'
         })
+        if (!resp.ok) {
+            setAlert(true)
+            setTimeout(() => setAlert(false), 3000)
+        }
     }
 
     // useEffect(() => {
@@ -146,12 +152,12 @@ const Results = () => {
     // }, [])
     // console.log(data.items)
     return (
-        <div className='App'>
-            <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top justify-content-center">
-                <button className='navbar-toggler ms-4' type='button' data-toggle='collapse' data-target='#navbarSupportedContent1' onClick={handleMenuToggle}>
-                    <span className="navbar-toggler-icon"></span>
+        <div>
+            <nav className='navbar navbar-expand-md navbar-light bg-light fixed-top justify-content-center'>
+                <button className='me-auto ms-4 navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarSupportedContent1' onClick={handleMenuToggle}>
+                    <span className='navbar-toggler-icon'></span>
                 </button>
-                <div className={isMenuOpen ? 'navbar-collapse' : 'navbar-collapse collapse'} id='navbarSupportedContent1'>
+                <div className={isMenuOpen ? 'navbar-collapse order-last' : 'navbar-collapse collapse order-last'} id='navbarSupportedContent1'>
                     <ul className='navbar-nav ms-4'>
                         <li className='nav-item'>
                             <button className={active === 0 ? 'btn btn-link link-dark text-decoration-none' : 'btn btn-link link-secondary text-decoration-none'} onClick={() => {setList('short_term'); setActive(0)}}>Last 4 weeks</button>
@@ -164,31 +170,32 @@ const Results = () => {
                         </li>
                     </ul>
                 </div>
-                <div className='text-muted' id='loginfo'>Logged in as {user.display_name}</div>
-                <div className="navbar-nav ml-auto">
-                    <button id='lastButton' onClick={() => buttonClick()} className="btn btn-outline-primary">Log off</button>
+                <div className='text-muted order-md-last' id='loginfo'>Logged in as {user.display_name}</div>
+                <div className='navbar-nav ml-auto order-md-last'>
+                    <button id='lastButton' onClick={() => buttonClick()} className='btn btn-outline-primary'>Log off</button>
                 </div>
             </nav>
             <div id='main'>
+                <Alert variant='danger' show={alert}>Song unable to be queued, likely because player is not active</Alert>
                 <div>
                     {show ? <p id='message'>Hi Rachel :)</p> : ''}
                 </div>
                 {data['items'].map((item, idx) => (
-                    <div key={idx} className="card border border-primary" id='card'>
-                        <div className="card-body">
+                    <div key={idx} className='card border border-primary' id='card'>
+                        <div className='card-body'>
                             <div className='row'>
                                 <div className='col'>
                                     <div id='songTitle'>
                                         <h5><a href={item.external_urls.spotify} className='link-dark' target='_blank' rel='noreferrer'>{item.name}</a></h5>
                                         <button id='queue' onClick={() => queueSong(item.uri)} className='btn btn-outline-primary btn-sm'>Queue song</button>
                                     </div>
-                                    <h6 className="card-subtitle mb-2 text-muted">
-                                        <a href={item.album.external_urls.spotify} className="link-secondary" target='_blank' rel='noreferrer'>{item.album.name}</a>
+                                    <h6 className='card-subtitle mb-2 text-muted'>
+                                        <a href={item.album.external_urls.spotify} className='link-secondary' target='_blank' rel='noreferrer'>{item.album.name}</a>
                                     <br></br>
                                     Released on {item.album.release_date}</h6>
                                     <h6 className='card-title'>Artists:</h6>
                                     {item.artists.map((artist, artistIdx) => (
-                                        <p key={artistIdx} className="pclass"><a href={artist.external_urls.spotify} className="link-secondary" target='_blank' rel='noreferrer'>{artist.name}</a></p>
+                                        <p key={artistIdx} className='pclass'><a href={artist.external_urls.spotify} className='link-secondary' target='_blank' rel='noreferrer'>{artist.name}</a></p>
                                     ))}
                                 </div>
                                 <div className='col' id='pic'>
